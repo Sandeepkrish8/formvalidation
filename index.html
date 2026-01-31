@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Simple Form Validation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+    }
+
+    input {
+      display: block;
+      width: 300px;
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+
+    button {
+      padding: 8px 16px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .success {
+      color: green;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Signup Form</h2>
+
+  <label>Email</label>
+  <input type="text" id="email" placeholder="example@email.com" />
+  <p id="emailMsg" class="error"></p>
+
+  <label>Password</label>
+  <input type="password" id="password" placeholder="Your Password" />
+  <p id="passwordMsg" class="error"></p>
+
+  <p id="successMsg" class="success"></p>
+
+  <button onclick="handleSubmit()">Submit</button>
+
+  <script>
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+
+    const emailMsg = document.getElementById("emailMsg");
+    const passwordMsg = document.getElementById("passwordMsg");
+    const successMsg = document.getElementById("successMsg");
+
+    let isEmailValid = false;
+    let isPasswordValid = false;
+
+    emailInput.addEventListener("input", function () {
+      const value = emailInput.value;
+
+      if (value.length > 3 && value.includes("@") && value.includes(".")) {
+        emailMsg.textContent = "";
+        isEmailValid = true;
+      } else {
+        emailMsg.textContent =
+          "Make sure email is more than 3 characters and has @ and .";
+        isEmailValid = false;
+      }
+
+      checkSuccess();
+    });
+
+    passwordInput.addEventListener("input", function () {
+      const value = passwordInput.value;
+
+      if (value.length > 8) {
+        passwordMsg.textContent = "";
+        isPasswordValid = true;
+      } else {
+        passwordMsg.textContent =
+          "Make sure password is more than 8 characters.";
+        isPasswordValid = false;
+      }
+
+      checkSuccess();
+    });
+
+    function checkSuccess() {
+      if (isEmailValid && isPasswordValid) {
+        successMsg.textContent = "All good to go!";
+      } else {
+        successMsg.textContent = "";
+      }
+    }
+
+    function handleSubmit() {
+      if (!isEmailValid || !isPasswordValid) {
+        alert("Please fix the errors before submitting");
+        return;
+      }
+
+      const result = confirm("Are you sure you want to sign up?");
+
+      if (result) {
+        alert("Successful signup!");
+      } else {
+        emailInput.value = "";
+        passwordInput.value = "";
+        emailMsg.textContent = "";
+        passwordMsg.textContent = "";
+        successMsg.textContent = "";
+        isEmailValid = false;
+        isPasswordValid = false;
+      }
+    }
+  </script>
+
+</body>
+</html>
